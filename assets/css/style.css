@@ -1,0 +1,50 @@
+/* style.css */
+
+/* ปรับสีพื้นหลังส่วน header */
+header.bg-primary {
+    background-color: #0069d9 !important; /* สีฟ้าเข้มขึ้น */
+}
+
+/* ปรับปุ่มในหน้าแรกให้มี margin เพิ่ม */
+.btn {
+    margin: 0.3rem;
+}
+
+/* ข้อความแนะนำในหน้าแรก */
+section p {
+    font-size: 1.1rem;
+    color: #555;
+}
+
+/* ตารางใน dashboard */
+table.table {
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* Badge สถานะในตาราง */
+.badge.bg-warning {
+    background-color: #ffc107 !important; /* สีเหลือง */
+}
+.badge.bg-success {
+    background-color: #28a745 !important; /* สีเขียว */
+}
+.badge.bg-danger {
+    background-color: #dc3545 !important; /* สีแดง */
+}
+
+/* ปรับ navbar ให้ดูทันสมัยขึ้น */
+.navbar-dark .navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+/* Responsive image */
+img.img-fluid {
+    max-height: 400px;
+    object-fit: cover;
+}
+
+/* กำหนดฟอนต์ไทย */
+body {
+    font-family: 'Kanit', sans-serif;
+}
