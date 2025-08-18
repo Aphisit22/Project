@@ -7,31 +7,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
-    <style>
-        .hero-bg {
-            background: linear-gradient(90deg, #0d6efd 60%, #6c63ff 100%);
-            color: #fff;
-        }
-        .feature-icon {
-            font-size: 2.5rem;
-            color: #0d6efd;
-        }
-        .howto-step {
-            background: #f8f9fa;
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-        }
-        .cta-btn {
-            font-size: 1.25rem;
-            padding: 0.75rem 2.5rem;
-        }
-        .shadow-hover:hover {
-            box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.15)!important;
-            transform: translateY(-5px);
-            transition: 0.2s;
-        }
-    </style>
 </head>
 <body>
     <?php include 'navbar.php'; ?>
