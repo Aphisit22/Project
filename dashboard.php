@@ -5,8 +5,10 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-include 'db.php'; // <-- ย้ายขึ้นมา
-$user_id = $_SESSION['user_id']; // <-- ย้ายขึ้นมา
+include 'db.php';
+include 'navbar.php';
+
+$user_id = $_SESSION['user_id'];
 
 if (isset($_GET['cancel_id'])) {
     $cancel_id = intval($_GET['cancel_id']);
@@ -18,10 +20,6 @@ if (isset($_GET['cancel_id'])) {
     header("Location: dashboard.php");
     exit;
 }
-
-// ส่วนอื่น ๆ ของโค้ดตามเดิม
-
-include 'navbar.php';
 
 $user_id = $_SESSION['user_id'];
 $stmt = $conn->prepare("SELECT bookings.*, rooms.name AS room_name 
@@ -42,8 +40,8 @@ $result = $stmt->get_result();
     <title>แดชบอร์ด</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/css/style.css?v=1">
 </head>
-
 <body>
     <div class="container mt-5">
         <h2>แดชบอร์ดของคุณ</h2>

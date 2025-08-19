@@ -25,6 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,56 +35,125 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="assets/css/style.css?v=1">
     <style>
         body {
-            background: linear-gradient(120deg, #0d6efd 60%, #6c63ff 100%);
+            position: relative;
+            background:
+                radial-gradient(1200px 600px at -10% -20%, rgba(255, 255, 255, 0.10), transparent 40%),
+                linear-gradient(135deg, var(--lux-primary) 0%, var(--lux-secondary) 55%, #8a7bff 100%);
+            overflow: hidden;
             min-height: 100vh;
+            align-items: center;
+            justify-content: center;
         }
+
+        .register-wrapper {
+            width: 100%;
+            max-width: 420px;
+            margin: 0 auto;
+        }
+
         .login-card {
-            max-width: 400px;
-            margin: 40px auto;
-            background: #fff;
-            border-radius: 1.2rem;
-            box-shadow: 0 0.5rem 2rem rgba(0,0,0,0.10);
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 1.5rem;
+            box-shadow: 0 8px 32px rgba(108, 99, 255, 0.15);
             padding: 2.5rem 2rem 2rem 2rem;
+            margin: 40px auto;
+            border: 1px solid #e0e7ff;
+            position: relative;
+            overflow: hidden;
         }
-        .login-card .form-label {
-            font-weight: 500;
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: -60px;
+            right: -60px;
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, #6c63ff55 60%, transparent 100%);
+            z-index: 0;
         }
-        .login-card .btn-primary {
-            font-size: 1.1rem;
-            padding: 0.5rem 2rem;
-            border-radius: 2rem;
-        }
-        .login-card .btn-secondary {
-            border-radius: 2rem;
-        }
+
         .login-icon {
-            font-size: 3rem;
-            color: #0d6efd;
+            font-size: 3.5rem;
+            color: #6c63ff;
             margin-bottom: 1rem;
-            filter: drop-shadow(0 2px 8px #6c63ff88);
+            filter: drop-shadow(0 2px 8px #0d6efd88);
+            z-index: 1;
+            position: relative;
         }
+
         .login-title {
-            font-weight: bold;
+            font-weight: 700;
             color: #0d6efd;
             margin-bottom: 1.5rem;
             text-shadow: 1px 1px 8px #6c63ff33;
+            z-index: 1;
+            position: relative;
         }
+
+        .login-card .form-label {
+            font-weight: 500;
+            color: #0d6efd;
+        }
+
+        .login-card .form-control {
+            border-radius: 1rem;
+            font-size: 1.1rem;
+        }
+
         .login-card .form-control:focus {
             border-color: #6c63ff;
-            box-shadow: 0 0 0 0.2rem rgba(108,99,255,.15);
+            box-shadow: 0 0 0 0.2rem rgba(108, 99, 255, .15);
         }
+
+        .login-card .btn-primary {
+            font-size: 1.1rem;
+            padding: 0.6rem 2rem;
+            border-radius: 2rem;
+            background: linear-gradient(90deg, #0d6efd 60%, #6c63ff 100%);
+            border: none;
+            color: #fff;
+            box-shadow: 0 2px 12px rgba(108, 99, 255, 0.10);
+            font-weight: 600;
+        }
+
+        .login-card .btn-primary:hover {
+            background: linear-gradient(90deg, #6c63ff 60%, #0d6efd 100%);
+            color: #fff;
+        }
+
+        .login-card .btn-secondary {
+            border-radius: 2rem;
+            background: #fff;
+            color: #6c63ff;
+            border: 1px solid #6c63ff;
+            font-weight: 600;
+        }
+
+        .login-card .btn-secondary:hover {
+            background: #6c63ff;
+            color: #fff;
+        }
+
         .login-card .alert {
             border-radius: 1rem;
+            font-size: 1rem;
+            margin-bottom: 1.2rem;
         }
+
         .login-links {
             margin-top: 1.5rem;
             text-align: center;
+            font-size: 1rem;
         }
+
         .login-links a {
             color: #6c63ff;
             text-decoration: underline;
             margin: 0 0.5rem;
+            font-weight: 500;
         }
+
         @media (max-width: 576px) {
             .login-card {
                 padding: 1.2rem 0.5rem;
@@ -91,37 +161,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     </style>
 </head>
+
 <body>
     <?php include 'navbar.php'; ?>
-    <div class="container">
+    <div class="register-wrapper">
         <div class="login-card">
             <div class="text-center">
-                <span class="login-icon"><i class="bi bi-person-circle"></i></span>
+                <span class="login-icon"><i class="bi bi-person-plus"></i></span>
                 <h2 class="login-title">เข้าสู่ระบบ</h2>
             </div>
             <?php if (!empty($error)): ?>
                 <div class="alert alert-danger"><?= $error ?></div>
             <?php endif; ?>
-            <form method="POST" autocomplete="off">
+            <form method="POST">
                 <div class="mb-3">
                     <label for="username" class="form-label">ชื่อผู้ใช้</label>
-                    <input type="text" name="username" id="username" class="form-control" required autofocus>
+                    <input type="text" name="username" id="username" class="form-control" required>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">รหัสผ่าน</label>
                     <input type="password" name="password" id="password" class="form-control" required>
                 </div>
                 <div class="d-grid gap-2 mb-2">
-                    <button type="submit" class="btn btn-primary"><i class="bi bi-box-arrow-in-right me-1"></i> เข้าสู่ระบบ</button>
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-person-plus me-1"></i> เข้าสู่ระบบ</button>
                 </div>
                 <div class="d-grid gap-2 mb-2">
                     <a href="index.php" class="btn btn-secondary"><i class="bi bi-arrow-left me-1"></i> กลับหน้าหลัก</a>
                 </div>
             </form>
             <div class="login-links">
-                <span>ยังไม่มีบัญชี? <a href="register.php">สมัครสมาชิก</a></span>
+                <span>ไม่มีบัญชี? <a href="register.php">สมัครสมาชิก</a></span>
             </div>
         </div>
     </div>
 </body>
+
 </html>
