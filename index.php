@@ -1,13 +1,18 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Room Booking System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-   <link rel="stylesheet" href="assets/css/style.css?v=1">
+    <link rel="stylesheet" href="assets/css/style.css?v=1">
 </head>
+
 <body>
     <?php include 'navbar.php'; ?>
 
@@ -17,7 +22,12 @@
             <h1 class="display-3 fw-bold mb-3"><i class="bi bi-calendar2-check"></i> ระบบจองห้องเรียนและห้องประชุม</h1>
             <p class="lead mb-4">จองห้องเรียนหรือห้องประชุมได้อย่างสะดวก รวดเร็ว และปลอดภัย</p>
             <a href="register.php" class="btn btn-warning cta-btn fw-bold me-2 shadow-hover"><i class="bi bi-person-plus"></i> สมัครสมาชิก</a>
-            <a href="booking.php" class="btn btn-light cta-btn fw-bold shadow-hover"><i class="bi bi-calendar-plus"></i> จองห้องเลย</a>
+            <?php
+            $booking_link = (isset($_SESSION['user_id'])) ? 'booking.php' : 'login.php';
+            ?>
+            <a href="<?= $booking_link ?>" class="btn btn-light cta-btn fw-bold shadow-hover">
+                <i class="bi bi-calendar-plus"></i> จองห้องเลย
+            </a>
         </div>
     </header>
 
@@ -146,4 +156,5 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

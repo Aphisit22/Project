@@ -56,13 +56,14 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto align-items-lg-center">
                 <?php if (isset($_SESSION['user_id'])): ?>
+                    <!-- ผู้ใช้เข้าสู่ระบบแล้ว -->
                     <li class="nav-item">
                         <a class="btn btn-dark fw-bold" href="dashboard.php"><i class="bi bi-speedometer2 me-1"></i>แดชบอร์ด</a>
                     </li>
                     <li class="nav-item">
                         <a class="btn btn-light fw-bold" href="booking.php"><i class="bi bi-calendar-plus me-1"></i>จองห้อง</a>
                     </li>
-                    <?php if ($_SESSION['role'] == 'admin'): ?>
+                    <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin'): ?>
                         <li class="nav-item ms-lg-2">
                             <a class="btn btn-warning px-3 fw-bold" href="manage_rooms.php"><i class="bi bi-gear me-1"></i>จัดการห้อง</a>
                         </li>
@@ -74,6 +75,7 @@
                         <a class="btn btn-danger px-3 fw-bold" href="logout.php"><i class="bi bi-box-arrow-right me-1"></i>ออกจากระบบ</a>
                     </li>
                 <?php else: ?>
+                    <!-- ผู้ใช้ยังไม่เข้าสู่ระบบ -->
                     <li class="nav-item">
                         <a href="login.php" class="btn btn-light btn-lg fw-bold m-2 px-4 shadow-hover"><i class="bi bi-box-arrow-in-right me-1"></i>เข้าสู่ระบบ</a>
                     </li>
