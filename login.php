@@ -57,8 +57,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             box-shadow: 0 8px 32px rgba(108, 99, 255, 0.15);
             padding: 2.5rem 2rem 2rem 2rem;
             margin: 40px auto;
-            border: 1px solid #e0e7ff;
-            position: relative;
             overflow: hidden;
         }
 
@@ -77,9 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             font-size: 3.5rem;
             color: #6c63ff;
             margin-bottom: 1rem;
-            filter: drop-shadow(0 2px 8px #0d6efd88);
             z-index: 1;
-            position: relative;
         }
 
         .login-title {
