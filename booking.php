@@ -18,21 +18,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $start_time = $_POST['start_time'];
     $end_time = $_POST['end_time'];
 
+    // ...existing code...
     // ตรวจสอบการจองซ้ำ
     $stmt = $conn->prepare("SELECT * FROM bookings 
-                            WHERE room_id = ? AND date = ? 
-                            AND ((start_time < ? AND end_time > ?) OR (start_time < ? AND end_time > ?) OR (start_time >= ? AND end_time <= ?))");
-    $stmt->bind_param('isssssss', $room_id, $date, $end_time, $end_time, $start_time, $start_time, $start_time, $end_time);
+    WHERE room_id = ? AND date = ? 
+    AND (
+        (start_time < ? AND end_time > ?)
+    )");
+    $stmt->bind_param('isss', $room_id, $date, $end_time, $start_time);
     $stmt->execute();
     $conflict = $stmt->get_result();
+    // ...existing code...
 
     if ($conflict->num_rows > 0) {
         $message = "<div class='alert alert-danger'>ช่วงเวลานี้ถูกจองแล้ว กรุณาเลือกเวลาอื่น</div>";
     } else {
         // บันทึกการจอง
-        $stmt = $conn->prepare("INSERT INTO bookings (user_id, room_id, date, start_time, end_time, status) 
-                                VALUES (?, ?, ?, ?, ?, 'pending')");
-        $stmt->bind_param('iisss', $_SESSION['user_id'], $room_id, $date, $start_time, $end_time);
+        $stmt = $conn->prepare("INSERT INTO bookings (user_id, room_id, date, start_time, end_time, reason, status) 
+                                VALUES (?, ?, ?, ?, ?, ?, 'pending')");
+        // ...existing code...
+        $reason = $_POST['reason'];
+        $stmt = $conn->prepare("INSERT INTO bookings (user_id, room_id, date, start_time, end_time, reason, status) 
+                        VALUES (?, ?, ?, ?, ?, ?, 'pending')");
+        $stmt->bind_param('iissss', $_SESSION['user_id'], $room_id, $date, $start_time, $end_time, $reason);
+        // ...existing code...
         if ($stmt->execute()) {
             $message = "<div class='alert alert-success'>ส่งคำขอจองสำเร็จ รอการอนุมัติ</div>";
         } else {
@@ -56,59 +65,72 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             background: linear-gradient(90deg, #6c63ff 60%, #0d6efd 100%);
             color: #fff;
             border-radius: 1.5rem;
-            box-shadow: 0 4px 24px rgba(108,99,255,0.10);
+            box-shadow: 0 4px 24px rgba(108, 99, 255, 0.10);
             padding: 2rem 1.5rem 1.5rem 1.5rem;
             margin-bottom: 2rem;
         }
+
         .booking-header h2 {
             font-weight: 700;
             font-size: 2.2rem;
             text-shadow: 1px 1px 8px #23102333;
         }
+
         .booking-header p {
             font-size: 1.15rem;
             color: #f3f3f3;
         }
+
         .booking-card {
             background: #fff;
             border-radius: 1.2rem;
-            box-shadow: 0 2px 16px rgba(108,99,255,0.08);
+            box-shadow: 0 2px 16px rgba(108, 99, 255, 0.08);
             padding: 2rem 1.5rem;
             margin-bottom: 2rem;
         }
+
         .form-label {
             font-weight: 600;
             color: #6c63ff;
         }
-        .form-select, .form-control {
+
+        .form-select,
+        .form-control {
             border-radius: 1rem;
             font-size: 1.08rem;
         }
-        .form-control:focus, .form-select:focus {
+
+        .form-control:focus,
+        .form-select:focus {
             border-color: #6c63ff;
-            box-shadow: 0 0 0 0.2rem rgba(108,99,255,.15);
+            box-shadow: 0 0 0 0.2rem rgba(108, 99, 255, .15);
         }
+
         .btn-success {
             border-radius: 2rem;
             font-weight: 600;
             font-size: 1.1rem;
             padding: 0.6rem 2.2rem;
         }
+
         .btn-secondary {
             border-radius: 2rem;
             font-weight: 600;
             font-size: 1.1rem;
             padding: 0.6rem 2.2rem;
         }
+
         #roomImageContainer {
             background: linear-gradient(90deg, #f4f6fb 60%, #e0e7ff 100%);
             border-radius: 1rem;
-            box-shadow: 0 2px 12px rgba(108,99,255,0.07);
+            box-shadow: 0 2px 12px rgba(108, 99, 255, 0.07);
         }
+
         #roomName {
             color: #0d6efd;
             font-weight: 600;
         }
+
         #roomCapacity {
             background: #6c63ff;
             color: #fff;
@@ -116,15 +138,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             border-radius: 1rem;
             padding: .3em 1em;
         }
+
         #roomFacilities {
             color: #6c63ff;
             font-size: 1rem;
         }
+
         @media (max-width: 576px) {
             .booking-header {
                 padding: 1.2rem .7rem;
                 border-radius: 1rem;
             }
+
             .booking-card {
                 padding: 1rem .5rem;
                 border-radius: .7rem;
@@ -132,6 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     </style>
 </head>
+
 <body>
     <div class="container py-4">
         <div class="booking-header mb-4 text-center">
@@ -148,7 +174,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <label for="room_id" class="form-label"><i class="bi bi-door-open me-1"></i>เลือกห้อง</label>
                     <select name="room_id" id="room_id" class="form-select mb-3" required onchange="showRoomImage()">
                         <option value="">เลือกห้อง</option>
-                        <?php $rooms->data_seek(0); while ($room = $rooms->fetch_assoc()): ?>
+                        <?php $rooms->data_seek(0);
+                        while ($room = $rooms->fetch_assoc()): ?>
                             <option
                                 value="<?= $room['id'] ?>"
                                 data-image="<?= htmlspecialchars($room['image']) ?>"
@@ -184,6 +211,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <label for="end_time" class="form-label">เวลาสิ้นสุด</label>
                         <input type="time" name="end_time" id="end_time" class="form-control" required>
                     </div>
+                </div>
+
+                <div class="col-md-12 mb-3">
+                    <label class="form-label">เหตุผลการจอง</label>
+                    <input type="text" name="reason" class="form-control" placeholder="ใส่เหตุผลการจอง" required>
                 </div>
 
                 <div class="d-flex justify-content-between">
@@ -226,4 +258,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         window.onload = showRoomImage;
     </script>
 </body>
+
 </html>

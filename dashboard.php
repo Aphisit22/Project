@@ -36,7 +36,7 @@ $result = $stmt->get_result();
 
 <head>
     <meta charset="UTF-8">
-    <title>แดชบอร์ด</title>
+    <title>ประวัติการจอง</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="assets/css/style.css?v=1">
@@ -110,7 +110,7 @@ $result = $stmt->get_result();
     <div class="container py-4">
         <div class="dashboard-header mb-4 text-center">
             <span class="display-5"><i class="bi bi-person-badge"></i></span>
-            <h2 class="mt-2 mb-2">แดชบอร์ดของคุณ</h2>
+            <h2 class="mt-2 mb-2">ประวัติการจองของคุณ</h2>
             <p>ดูประวัติการจองห้องเรียนและห้องประชุมของคุณ</p>
         </div>
 

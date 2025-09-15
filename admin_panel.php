@@ -117,6 +117,7 @@ $result = $stmt->get_result();
                                 <th>วันที่</th>
                                 <th>เวลาเริ่ม</th>
                                 <th>เวลาสิ้นสุด</th>
+                                <th>เหตุผลการจอง</th>
                                 <th>สถานะ</th>
                                 <th>การจัดการ</th>
                             </tr>
@@ -129,6 +130,7 @@ $result = $stmt->get_result();
                                 <td><?= $row['date'] ?></td>
                                 <td><?= $row['start_time'] ?></td>
                                 <td><?= $row['end_time'] ?></td>
+                                <td><?= $row['reason'] ?></td>
                                 <td>
                                     <?php
                                         if ($row['status'] == 'pending') echo '<span class="badge bg-warning text-dark"><i class="bi bi-hourglass-split me-1"></i>รออนุมัติ</span>';

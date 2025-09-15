@@ -21,13 +21,10 @@ session_start();
         <div class="container">
             <h1 class="display-3 fw-bold mb-3"><i class="bi bi-calendar2-check"></i> ระบบจองห้องเรียนและห้องประชุม</h1>
             <p class="lead mb-4">จองห้องเรียนหรือห้องประชุมได้อย่างสะดวก รวดเร็ว และปลอดภัย</p>
-            <a href="register.php" class="btn btn-warning cta-btn fw-bold me-2 shadow-hover"><i class="bi bi-person-plus"></i> สมัครสมาชิก</a>
             <?php
             $booking_link = (isset($_SESSION['user_id'])) ? 'booking.php' : 'login.php';
             ?>
-            <a href="<?= $booking_link ?>" class="btn btn-light cta-btn fw-bold shadow-hover">
-                <i class="bi bi-calendar-plus"></i> จองห้องเลย
-            </a>
+            <a href="<?= $booking_link ?>" class="btn btn-warning cta-btn fw-bold me-2 shadow-hover"><i class="bi bi-calendar-plus"></i> จองห้องเลย</a>
         </div>
     </header>
 
@@ -37,9 +34,9 @@ session_start();
             <div class="col-md-4">
                 <div class="card border-0 shadow-sm h-100 shadow-hover">
                     <div class="card-body">
-                        <div class="feature-icon mb-3"><i class="bi bi-search"></i></div>
-                        <h5 class="card-title fw-bold">ค้นหาห้องว่าง</h5>
-                        <p class="card-text">ตรวจสอบห้องว่างได้แบบเรียลไทม์ พร้อมรายละเอียดครบถ้วน</p>
+                        <div class="feature-icon mb-3"><i class="bi bi-stars"></i></div>
+                        <h5 class="card-title fw-bold">คุณภาพห้อง</h5>
+                        <p class="card-text">ห้องสะอาด ทำความสะอาดบางวัน</p>
                     </div>
                 </div>
             </div>
@@ -48,7 +45,7 @@ session_start();
                     <div class="card-body">
                         <div class="feature-icon mb-3"><i class="bi bi-clock-history"></i></div>
                         <h5 class="card-title fw-bold">จองง่าย รวดเร็ว</h5>
-                        <p class="card-text">เลือกวันและเวลาที่ต้องการจองได้ทันที พร้อมระบบแจ้งเตือนสถานะ</p>
+                        <p class="card-text">เลือกวันและเวลาที่ต้องการจองได้ทันที</p>
                     </div>
                 </div>
             </div>
@@ -70,30 +67,24 @@ session_start();
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <div class="howto-step mb-3 d-flex align-items-center">
-                    <div class="me-3 display-6 text-primary"><i class="bi bi-person-plus"></i></div>
-                    <div>
-                        <span class="fw-bold">1. สมัครสมาชิก</span> <br>
-                        กรอกข้อมูลเพื่อสมัครสมาชิกเข้าสู่ระบบ
-                    </div>
-                </div>
-                <div class="howto-step mb-3 d-flex align-items-center">
                     <div class="me-3 display-6 text-success"><i class="bi bi-box-arrow-in-right"></i></div>
                     <div>
-                        <span class="fw-bold">2. เข้าสู่ระบบ</span> <br>
-                        ล็อกอินด้วยชื่อผู้ใช้และรหัสผ่านที่สมัครไว้
+                        <span class="fw-bold">1. เข้าสู่ระบบ</span> <br>
+                        นักเรียน/นักศึกษา -> ชื่อผู้ใช้ : รหัสนักศึกษา , รหัสผ่าน : เลขบัตรประชาชน <br>
+                        บุคลากรทางการศึกษา -> ชื่อผู้ใช้ : รหัสพนักงาน , รหัสผ่าน : เลขบัตรประชาชน <br>
                     </div>
                 </div>
                 <div class="howto-step mb-3 d-flex align-items-center">
                     <div class="me-3 display-6 text-warning"><i class="bi bi-calendar-plus"></i></div>
                     <div>
-                        <span class="fw-bold">3. จองห้อง</span> <br>
+                        <span class="fw-bold">2. จองห้อง</span> <br>
                         เลือกห้อง วันที่ และเวลาที่ต้องการจอง
                     </div>
                 </div>
                 <div class="howto-step d-flex align-items-center">
                     <div class="me-3 display-6 text-info"><i class="bi bi-check-circle"></i></div>
                     <div>
-                        <span class="fw-bold">4. รอการอนุมัติ</span> <br>
+                        <span class="fw-bold">3. รอการอนุมัติ</span> <br>
                         ตรวจสอบสถานะการจองและรอการอนุมัติจากผู้ดูแลระบบ
                     </div>
                 </div>
@@ -111,7 +102,7 @@ session_start();
                 <h2 class="fw-bold mb-3"><i class="bi bi-info-circle"></i> เกี่ยวกับระบบ</h2>
                 <p class="fs-5">ระบบนี้ออกแบบมาเพื่อให้ผู้ใช้งานสามารถจองห้องเรียนหรือห้องประชุมได้โดยง่าย มีการตรวจสอบความพร้อมใช้งานแบบเรียลไทม์ และระบบการอนุมัติจากผู้ดูแลระบบ</p>
                 <ul class="list-unstyled fs-5">
-                    <li><i class="bi bi-check-circle-fill text-success me-2"></i>ดูห้องว่างได้ทันที</li>
+                    <li><i class="bi bi-check-circle-fill text-success me-2"></i>ห้องสะอาด</li>
                     <li><i class="bi bi-check-circle-fill text-success me-2"></i>จองได้ตามวันที่และเวลาที่ต้องการ</li>
                     <li><i class="bi bi-check-circle-fill text-success me-2"></i>ติดตามสถานะการจองได้ตลอดเวลา</li>
                 </ul>
@@ -134,14 +125,15 @@ session_start();
                     <ul class="list-unstyled">
                         <li><a href="index.php" class="text-white text-decoration-none"><i class="bi bi-house-door me-1"></i> หน้าแรก</a></li>
                         <li><a href="booking.php" class="text-white text-decoration-none"><i class="bi bi-calendar-plus me-1"></i> จองห้อง</a></li>
-                        <li><a href="register.php" class="text-white text-decoration-none"><i class="bi bi-person-plus me-1"></i> สมัครสมาชิก</a></li>
                         <li><a href="login.php" class="text-white text-decoration-none"><i class="bi bi-box-arrow-in-right me-1"></i> เข้าสู่ระบบ</a></li>
                     </ul>
                 </div>
                 <div class="col-md-4">
                     <h6 class="fw-bold mb-3"><i class="bi bi-envelope me-1"></i> ติดต่อเรา</h6>
                     <ul class="list-unstyled">
-                        <li><i class="bi bi-geo-alt me-1"></i> <span class="text-white-50">[ที่อยู่ : Moon]</span></li>
+                        <li><i class="bi bi-geo-alt me-1"></i> <span class="text-white-50">[ที่อยู่ : วิทยาลัยอาชีวศึกษานครปฐม
+                                สังกัดสำนักงานคณะกรรมการการอาชีวศึกษา
+                                ที่ตั้ง 90 ถนน เทศา ตำบลพระปฐมเจดีย์ อำเภอเมืองนครปฐม นครปฐม 73000]</span></li>
                         <li><i class="bi bi-telephone me-1"></i> <span class="text-white-50">[เบอร์โทรศัพท์ : 020-2000000]</span></li>
                         <li><i class="bi bi-envelope-at me-1"></i> <span class="text-white-50">[อีเมล : zcv2175@gmail.com]</span></li>
                     </ul>

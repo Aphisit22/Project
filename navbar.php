@@ -58,7 +58,7 @@
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <!-- ผู้ใช้เข้าสู่ระบบแล้ว -->
                     <li class="nav-item">
-                        <a class="btn btn-dark fw-bold" href="dashboard.php"><i class="bi bi-speedometer2 me-1"></i>แดชบอร์ด</a>
+                        <a class="btn btn-dark fw-bold" href="dashboard.php"><i class="bi bi-speedometer2 me-1"></i>ประวัติการจอง</a>
                     </li>
                     <li class="nav-item">
                         <a class="btn btn-light fw-bold" href="booking.php"><i class="bi bi-calendar-plus me-1"></i>จองห้อง</a>
@@ -78,9 +78,6 @@
                     <!-- ผู้ใช้ยังไม่เข้าสู่ระบบ -->
                     <li class="nav-item">
                         <a href="login.php" class="btn btn-light btn-lg fw-bold m-2 px-4 shadow-hover"><i class="bi bi-box-arrow-in-right me-1"></i>เข้าสู่ระบบ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="register.php" class="btn btn-outline-light btn-lg fw-bold m-2 px-4 shadow-hover"><i class="bi bi-person-plus me-1"></i>สมัครสมาชิก</a>
                     </li>
                 <?php endif; ?>
             </ul>

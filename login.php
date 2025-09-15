@@ -150,6 +150,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             font-weight: 500;
         }
 
+        input::placeholder {
+            color: #adb5bd !important;
+            /* สีเทาอ่อน */
+            opacity: 0.7 !important;
+            /* ปรับความจาง */
+        }
+
         @media (max-width: 576px) {
             .login-card {
                 padding: 1.2rem 0.5rem;
@@ -172,11 +179,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <form method="POST">
                 <div class="mb-3">
                     <label for="username" class="form-label">ชื่อผู้ใช้</label>
-                    <input type="text" name="username" id="username" class="form-control" required>
+                    <input type="text" name="username" id="username" class="form-control" required placeholder="รหัสนักศึกษา/รหัสพนักงาน">
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">รหัสผ่าน</label>
-                    <input type="password" name="password" id="password" class="form-control" required>
+                    <input type="password" name="password" id="password" class="form-control" require placeholder="เลขบัตรประชาชน">
                 </div>
                 <div class="d-grid gap-2 mb-2">
                     <button type="submit" class="btn btn-primary"><i class="bi bi-person-plus me-1"></i> เข้าสู่ระบบ</button>
@@ -185,9 +192,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <a href="index.php" class="btn btn-secondary"><i class="bi bi-arrow-left me-1"></i> กลับหน้าหลัก</a>
                 </div>
             </form>
-            <div class="login-links">
-                <span>ไม่มีบัญชี? <a href="register.php">สมัครสมาชิก</a></span>
-            </div>
         </div>
     </div>
 </body>
