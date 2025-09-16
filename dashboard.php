@@ -2,7 +2,7 @@
 session_start();
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
-    exit;
+    exit;   
 }
 
 include 'db.php';
@@ -20,13 +20,14 @@ if (isset($_GET['cancel_id'])) {
 
 include 'navbar.php';
 
+// ดึงเฉพาะการจองของ user
 $stmt = $pdo->prepare("SELECT bookings.*, rooms.name AS room_name 
                         FROM bookings 
                         JOIN rooms ON bookings.room_id = rooms.id 
                         WHERE bookings.user_id = ? 
                         ORDER BY bookings.date DESC");
 $stmt->execute([$user_id]);
-$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$userBookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // ดึงข้อมูลการจองทั้งหมด
 $stmt = $pdo->prepare("SELECT bookings.*, users.username, rooms.name AS room_name 
@@ -36,6 +37,7 @@ $stmt = $pdo->prepare("SELECT bookings.*, users.username, rooms.name AS room_nam
                         ORDER BY bookings.date DESC");
 $stmt->execute();
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
 <!DOCTYPE html>
@@ -125,7 +127,7 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         <div class="card table-dashboard mb-2">
             <div class="card-body p-0">
-                <?php if (count($result) > 0): ?>
+                <?php if (count($userBookings) > 0): ?>
                     <div class="table-responsive">
                         <table class="table mb-0 align-middle">
                             <thead>
@@ -139,7 +141,7 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($result as $row): ?>
+                                <?php foreach ($userBookings as $row): ?>
                                     <tr>
                                         <td><?= htmlspecialchars($row['room_name']) ?></td>
                                         <td><?= $row['date'] ?></td>
