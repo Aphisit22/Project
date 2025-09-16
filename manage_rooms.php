@@ -6,7 +6,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'admin') {
 }
 
 include 'db.php';
-include 'navbar.php';
 
 // เพิ่มห้อง
 if (isset($_POST['add_room'])) {
@@ -26,11 +25,15 @@ if (isset($_POST['add_room'])) {
         }
     }
 
-    $stmt = $conn->prepare("INSERT INTO rooms (name, capacity, facilities, image) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param('siss', $name, $capacity, $facilities, $image_path);
-    $stmt->execute();
-}
+    $stmt = $pdo->prepare("INSERT INTO rooms (name, capacity, facilities, image) VALUES (?, ?, ?, ?)");
+    $stmt->execute([$name, $capacity, $facilities, $image_path]);
+    $_SESSION['alert_room'] = "เพิ่มห้องสำเร็จ!";
+    header("Location: manage_rooms.php");
+    exit;
 
+    $stmt = $pdo->prepare("INSERT INTO rooms (name, capacity, facilities, image) VALUES (?, ?, ?, ?)");
+    $stmt->execute([$name, $capacity, $facilities, $image_path]);
+}
 
 // แก้ไขห้อง
 if (isset($_POST['edit_room'])) {
@@ -49,33 +52,39 @@ if (isset($_POST['edit_room'])) {
             $image_path = $target_file;
 
             // UPDATE พร้อมรูปใหม่
-            $stmt = $conn->prepare("UPDATE rooms SET name=?, capacity=?, facilities=?, image=? WHERE id=?");
-            $stmt->bind_param('sissi', $name, $capacity, $facilities, $image_path, $id);
+            $stmt = $pdo->prepare("UPDATE rooms SET name=?, capacity=?, facilities=?, image=? WHERE id=?");
+            $stmt->execute([$name, $capacity, $facilities, $image_path, $id]);
         }
     } else {
         // UPDATE โดยไม่เปลี่ยนรูป
-        $stmt = $conn->prepare("UPDATE rooms SET name=?, capacity=?, facilities=? WHERE id=?");
-        $stmt->bind_param('sisi', $name, $capacity, $facilities, $id);
+        $stmt = $pdo->prepare("UPDATE rooms SET name=?, capacity=?, facilities=? WHERE id=?");
+        $stmt->execute([$name, $capacity, $facilities, $id]);
     }
-
-    $stmt->execute();
 }
-
 
 // ลบห้อง
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
-    $stmt = $conn->prepare("DELETE FROM rooms WHERE id = ?");
-    $stmt->bind_param('i', $id);
-    $stmt->execute();
+    $stmt = $pdo->prepare("DELETE FROM rooms WHERE id = ?");
+    $stmt->execute([$id]);
+
+    if (isset($_GET['delete'])) {
+    $id = $_GET['delete'];
+    $stmt = $pdo->prepare("DELETE FROM rooms WHERE id = ?");
+    $stmt->execute([$id]);
+    $_SESSION['alert_room'] = "ลบห้องสำเร็จ!";
+    header("Location: manage_rooms.php");
+    exit;
+    }
 }
 
 // แสดงรายชื่อห้อง
-$result = $conn->query("SELECT * FROM rooms");
+$stmt = $pdo->query("SELECT * FROM rooms");
+$rooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+include 'navbar.php';
 ?>
 
-
-<!-- filepath: c:\xampp\htdocs\room\manage_rooms.php -->
 <!DOCTYPE html>
 <html lang="th">
 
@@ -85,6 +94,8 @@ $result = $conn->query("SELECT * FROM rooms");
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="assets/css/style.css?v=1">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         .page-header {
             background: linear-gradient(90deg, #6c63ff 60%, #0d6efd 100%);
@@ -194,7 +205,7 @@ $result = $conn->query("SELECT * FROM rooms");
                             </tr>
                         </thead>
                         <tbody>
-                            <?php while ($room = $result->fetch_assoc()): ?>
+                            <?php foreach ($rooms as $room): ?>
                                 <tr>
                                     <td>
                                         <?php if (!empty($room['image'])): ?>
@@ -213,8 +224,7 @@ $result = $conn->query("SELECT * FROM rooms");
                                             <i class="bi bi-pencil-square"></i>
                                         </button>
                                         <!-- ปุ่มลบ -->
-                                        <a href="?delete=<?= $room['id'] ?>" class="btn btn-sm btn-danger"
-                                            onclick="return confirm('แน่ใจว่าต้องการลบห้องนี้?')">
+                                        <a href="?delete=<?= $room['id'] ?>" class="btn btn-sm btn-danger delete-room-btn">
                                             <i class="bi bi-trash3"></i>
                                         </a>
 
@@ -256,7 +266,7 @@ $result = $conn->query("SELECT * FROM rooms");
                                         </div>
                                     </td>
                                 </tr>
-                            <?php endwhile; ?>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
@@ -267,4 +277,45 @@ $result = $conn->query("SELECT * FROM rooms");
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+<?php if (isset($_SESSION['alert_room'])): ?>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                icon: 'success',
+                title: 'สำเร็จ!',
+                text: '<?= htmlspecialchars($_SESSION['alert_room']) ?>',
+                confirmButtonText: 'ตกลง',
+                timer: 1800,
+                timerProgressBar: true
+            });
+        });
+    </script>
+    <?php unset($_SESSION['alert_room']); ?>
+<?php endif; ?>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.delete-room-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const deleteId = this.getAttribute('data-delete');
+            Swal.fire({
+                title: 'ยืนยันการลบห้อง?',
+                text: "คุณแน่ใจว่าต้องการลบห้องนี้?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'ใช่, ลบ!',
+                cancelButtonText: 'ไม่'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = '?delete=' + deleteId;
+                }
+            });
+        });
+    });
+});
+</script>
 </html>

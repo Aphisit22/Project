@@ -7,13 +7,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $email = $_POST['email'];
 
-    $stmt = $conn->prepare('INSERT INTO users (username, password, role, email) VALUES (?, ?, "student", ?)');
-    $stmt->bind_param('sss', $username, $password, $email);
-
-    if ($stmt->execute()) {
-        header('Location: login.php');
-        exit;
-    } else {
+    try {
+        $stmt = $pdo->prepare('INSERT INTO users (username, password, role, email) VALUES (?, ?, "student", ?)');
+        if ($stmt->execute([$username, $password, $email])) {
+            header('Location: login.php');
+            exit;
+        } else {
+            $error = "ไม่สามารถลงทะเบียนได้ อาจมีชื่อผู้ใช้นี้อยู่แล้ว";
+        }
+    } catch (PDOException $e) {
         $error = "ไม่สามารถลงทะเบียนได้ อาจมีชื่อผู้ใช้นี้อยู่แล้ว";
     }
 }

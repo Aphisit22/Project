@@ -14,7 +14,7 @@
         border-radius: 1rem;
         padding: 0.3rem 1.5rem 0.3rem 1rem;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
-        text-shadow: 1px 1px 8px #00000033;
+        text-shadow: 1px 1px 8px #0003;
         font-size: 2rem;
         font-weight: bold;
         letter-spacing: 1px;
@@ -28,18 +28,84 @@
     .navbar-brand i {
         font-size: 2.2rem;
         margin-right: 0.7rem;
-        color: #ffffffff;
+        color: #fff;
         filter: drop-shadow(0 2px 4px #0003);
     }
 
+    /* Responsive & Hamburger menu */
     @media (max-width: 991.98px) {
+        .navbar-nav {
+            align-items: stretch !important;
+        }
+
+        .navbar-nav .nav-item {
+            margin-bottom: 0.5rem;
+            width: 100%;
+        }
+
+        .navbar-nav .btn,
+        .navbar-nav .btn-lg {
+            width: 100%;
+            text-align: left;
+            padding-left: 1.2rem;
+            padding-right: 1.2rem;
+            margin: 0.3rem 0.3rem 0.5rem;
+            font-size: 1rem;
+            border-radius: 0.7rem;
+            box-shadow: 0 2px 8px #0001;
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+
+        .navbar-nav .btn-lg {
+            font-size: 1.1rem;
+            padding: 0.7rem 1.2rem;
+        }
+
+        .navbar-nav .ms-lg-1,
+        .navbar-nav .ms-lg-2,
+        .navbar-nav .ms-lg-3 {
+            margin-left: 0 !important;
+        }
+
+        .navbar-collapse {
+            background: rgba(30, 30, 60, 0.98);
+            border-radius: 1rem;
+            margin-top: 0.7rem;
+            padding: 1.2rem 0.7rem;
+            box-shadow: 0 4px 16px #0002;
+            transition: all 0.35s cubic-bezier(.4, 2, .6, 1);
+            opacity: 0;
+            transform: translateY(-20px) scale(0.98);
+            pointer-events: none;
+            backdrop-filter: blur(8px);
+        }
+
+        .navbar-collapse.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+            background: rgba(30, 30, 60, 0.97);
+            border-radius: 1.2rem;
+            box-shadow: 0 12px 32px #0004;
+        }
+
+        .navbar {
+            padding-bottom: 0.5rem;
+        }
+    }
+
+    @media (max-width: 575.98px) {
         .navbar-brand-highlight {
-            font-size: 1.3rem;
-            padding: 0.3rem 1rem 0.3rem 0.7rem;
+            font-size: 1rem;
+            padding: 0.2rem 0.7rem 0.2rem 0.5rem;
         }
 
         .navbar-brand i {
-            font-size: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .navbar-collapse {
+            padding: 0.5rem 0.2rem;
         }
     }
 </style>
@@ -56,7 +122,6 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto align-items-lg-center">
                 <?php if (isset($_SESSION['user_id'])): ?>
-                    <!-- ผู้ใช้เข้าสู่ระบบแล้ว -->
                     <li class="nav-item">
                         <a class="btn btn-dark fw-bold" href="dashboard.php"><i class="bi bi-speedometer2 me-1"></i>ประวัติการจอง</a>
                     </li>
@@ -75,7 +140,6 @@
                         <a class="btn btn-danger px-3 fw-bold" href="logout.php"><i class="bi bi-box-arrow-right me-1"></i>ออกจากระบบ</a>
                     </li>
                 <?php else: ?>
-                    <!-- ผู้ใช้ยังไม่เข้าสู่ระบบ -->
                     <li class="nav-item">
                         <a href="login.php" class="btn btn-light btn-lg fw-bold m-2 px-4 shadow-hover"><i class="bi bi-box-arrow-in-right me-1"></i>เข้าสู่ระบบ</a>
                     </li>

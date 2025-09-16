@@ -9,7 +9,8 @@ include 'db.php';
 include 'navbar.php';
 
 // โหลดห้องทั้งหมด
-$rooms = $conn->query("SELECT * FROM rooms");
+$rooms_stmt = $pdo->query("SELECT * FROM rooms");
+$rooms = $rooms_stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $message = "";
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -17,32 +18,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $date = $_POST['date'];
     $start_time = $_POST['start_time'];
     $end_time = $_POST['end_time'];
+    $reason = $_POST['reason'];
 
-    // ...existing code...
     // ตรวจสอบการจองซ้ำ
-    $stmt = $conn->prepare("SELECT * FROM bookings 
-    WHERE room_id = ? AND date = ? 
-    AND (
-        (start_time < ? AND end_time > ?)
-    )");
-    $stmt->bind_param('isss', $room_id, $date, $end_time, $start_time);
-    $stmt->execute();
-    $conflict = $stmt->get_result();
-    // ...existing code...
+    $stmt = $pdo->prepare("SELECT * FROM bookings 
+        WHERE room_id = ? AND date = ? 
+        AND (
+            (start_time < ? AND end_time > ?)
+        )");
+    $stmt->execute([$room_id, $date, $end_time, $start_time]);
+    $conflict = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    if ($conflict->num_rows > 0) {
+    if (count($conflict) > 0) {
         $message = "<div class='alert alert-danger'>ช่วงเวลานี้ถูกจองแล้ว กรุณาเลือกเวลาอื่น</div>";
     } else {
         // บันทึกการจอง
-        $stmt = $conn->prepare("INSERT INTO bookings (user_id, room_id, date, start_time, end_time, reason, status) 
+        $stmt = $pdo->prepare("INSERT INTO bookings (user_id, room_id, date, start_time, end_time, reason, status) 
                                 VALUES (?, ?, ?, ?, ?, ?, 'pending')");
-        // ...existing code...
-        $reason = $_POST['reason'];
-        $stmt = $conn->prepare("INSERT INTO bookings (user_id, room_id, date, start_time, end_time, reason, status) 
-                        VALUES (?, ?, ?, ?, ?, ?, 'pending')");
-        $stmt->bind_param('iissss', $_SESSION['user_id'], $room_id, $date, $start_time, $end_time, $reason);
-        // ...existing code...
-        if ($stmt->execute()) {
+        if ($stmt->execute([$_SESSION['user_id'], $room_id, $date, $start_time, $end_time, $reason])) {
             $message = "<div class='alert alert-success'>ส่งคำขอจองสำเร็จ รอการอนุมัติ</div>";
         } else {
             $message = "<div class='alert alert-danger'>เกิดข้อผิดพลาดในการจอง</div>";
@@ -53,13 +46,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <!DOCTYPE html>
 <html lang="th">
-
 <head>
     <meta charset="UTF-8">
     <title>จองห้อง</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="assets/css/style.css?v=1">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         .booking-header {
             background: linear-gradient(90deg, #6c63ff 60%, #0d6efd 100%);
@@ -157,7 +150,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     </style>
 </head>
-
 <body>
     <div class="container py-4">
         <div class="booking-header mb-4 text-center">
@@ -174,8 +166,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <label for="room_id" class="form-label"><i class="bi bi-door-open me-1"></i>เลือกห้อง</label>
                     <select name="room_id" id="room_id" class="form-select mb-3" required onchange="showRoomImage()">
                         <option value="">เลือกห้อง</option>
-                        <?php $rooms->data_seek(0);
-                        while ($room = $rooms->fetch_assoc()): ?>
+                        <?php foreach ($rooms as $room): ?>
                             <option
                                 value="<?= $room['id'] ?>"
                                 data-image="<?= htmlspecialchars($room['image']) ?>"
@@ -184,7 +175,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 data-facilities="<?= htmlspecialchars($room['facilities']) ?>">
                                 <?= htmlspecialchars($room['name']) ?> (ความจุ <?= $room['capacity'] ?>)
                             </option>
-                        <?php endwhile; ?>
+                        <?php endforeach; ?>
                     </select>
 
                     <div id="roomImageContainer" class="text-center p-3 border rounded bg-light" style="display:none;">
@@ -258,5 +249,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         window.onload = showRoomImage;
     </script>
 </body>
-
 </html>
