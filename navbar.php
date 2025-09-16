@@ -135,6 +135,9 @@
                         <li class="nav-item ms-lg-1">
                             <a class="btn btn-success px-3 fw-bold" href="admin_panel.php"><i class="bi bi-shield-lock me-1"></i>แอดมิน</a>
                         </li>
+                        <li class="nav-item ms-lg-2">
+                            <a class="btn btn-primary px-3 fw-bold" href="register.php"><i class="bi bi-person-add me-1"></i>เพิ่มสมาชิก</a>
+                        </li>
                     <?php endif; ?>
                     <li class="nav-item ms-lg-3">
                         <a class="btn btn-danger px-3 fw-bold" href="logout.php"><i class="bi bi-box-arrow-right me-1"></i>ออกจากระบบ</a>

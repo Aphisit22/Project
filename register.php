@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>สมัครสมาชิก</title>
+    <title>เพิ่มสมาชิก</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="assets/css/style.css?v=1">
@@ -153,6 +153,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 padding: 1.2rem 0.5rem;
             }
         }
+        input::placeholder {
+            color: #adb5bd !important;
+            /* สีเทาอ่อน */
+            opacity: 0.7 !important;
+            /* ปรับความจาง */
+        }
     </style>
 </head>
 
@@ -162,7 +168,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="login-card">
             <div class="text-center">
                 <span class="login-icon"><i class="bi bi-person-plus"></i></span>
-                <h2 class="login-title">สมัครสมาชิก</h2>
+                <h2 class="login-title">เพิ่มสมาชิก</h2>
             </div>
             <?php if (!empty($error)): ?>
                 <div class="alert alert-danger"><?= $error ?></div>
@@ -170,26 +176,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <form method="POST">
                 <div class="mb-3">
                     <label for="username" class="form-label">ชื่อผู้ใช้</label>
-                    <input type="text" name="username" id="username" class="form-control" required>
+                    <input type="text" name="username" id="username" class="form-control" required required placeholder="รหัสนักศึกษา/รหัสพนักงาน">
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">อีเมล</label>
-                    <input type="email" name="email" id="email" class="form-control" required>
+                    <input type="email" name="email" id="email" class="form-control" required required placeholder="กรุณาใส่อีเมลของคุณ">
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">รหัสผ่าน</label>
-                    <input type="password" name="password" id="password" class="form-control" required>
+                    <input type="password" name="password" id="password" class="form-control" required required placeholder="เลขบัตรประชาชน">
                 </div>
                 <div class="d-grid gap-2 mb-2">
-                    <button type="submit" class="btn btn-primary"><i class="bi bi-person-plus me-1"></i> สมัครสมาชิก</button>
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-person-plus me-1"></i> เพิ่มสมาชิก</button>
                 </div>
                 <div class="d-grid gap-2 mb-2">
                     <a href="index.php" class="btn btn-secondary"><i class="bi bi-arrow-left me-1"></i> กลับหน้าหลัก</a>
                 </div>
             </form>
-            <div class="login-links">
-                <span>มีบัญชีแล้ว? <a href="login.php">เข้าสู่ระบบ</a></span>
-            </div>
         </div>
     </div>
 </body>
