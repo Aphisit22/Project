@@ -174,3 +174,20 @@ document.getElementById('logoutBtn')?.addEventListener('click', function (e) {
     });
 });
 </script>
+<?php if (isset($_SESSION['logout_success']) && $_SESSION['logout_success'] === true): ?>
+<script>
+Swal.fire({
+    toast: true,
+    position: 'top-end',
+    icon: 'success',
+    title: 'ออกจากระบบสำเร็จ',
+    showConfirmButton: false,
+    timer: 2500,
+    timerProgressBar: true
+});
+</script>
+<?php 
+    // ลบ flag หลังจากแสดง Toast
+    unset($_SESSION['logout_success']);
+endif; 
+?>
