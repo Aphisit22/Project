@@ -176,15 +176,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <form method="POST">
                 <div class="mb-3">
                     <label for="username" class="form-label">ชื่อผู้ใช้</label>
-                    <input type="text" name="username" id="username" class="form-control" required required placeholder="รหัสนักศึกษา/รหัสพนักงาน">
+                    <input type="text" name="username" id="username" class="form-control" required placeholder="รหัสนักศึกษา/รหัสพนักงาน">
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">อีเมล</label>
-                    <input type="email" name="email" id="email" class="form-control" required required placeholder="กรุณาใส่อีเมลของคุณ">
+                    <input type="email" name="email" id="email" class="form-control" required placeholder="กรุณาใส่อีเมลของคุณ">
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">รหัสผ่าน</label>
-                    <input type="password" name="password" id="password" class="form-control" required required placeholder="เลขบัตรประชาชน">
+                    <input type="password" name="password" id="password" class="form-control" required placeholder="เลขบัตรประชาชน">
                 </div>
                 <div class="d-grid gap-2 mb-2">
                     <button type="submit" class="btn btn-primary"><i class="bi bi-person-plus me-1"></i> เพิ่มสมาชิก</button>

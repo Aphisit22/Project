@@ -140,7 +140,7 @@
                         </li>
                     <?php endif; ?>
                     <li class="nav-item ms-lg-3">
-                        <a class="btn btn-danger px-3 fw-bold" href="logout.php"><i class="bi bi-box-arrow-right me-1"></i>ออกจากระบบ</a>
+                        <a class="btn btn-danger px-3 fw-bold" href="logout.php" id="logoutBtn"><i class="bi bi-box-arrow-right me-1"></i>ออกจากระบบ</a>
                     </li>
                 <?php else: ?>
                     <li class="nav-item">
@@ -151,3 +151,26 @@
         </div>
     </div>
 </nav>
+
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+document.getElementById('logoutBtn')?.addEventListener('click', function (e) {
+    e.preventDefault();
+
+    Swal.fire({
+        title: 'คุณแน่ใจหรือไม่?',
+        text: "คุณต้องการออกจากระบบ",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'ใช่, ออกจากระบบ',
+        cancelButtonText: 'ยกเลิก'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = "logout.php";
+        }
+    });
+});
+</script>
